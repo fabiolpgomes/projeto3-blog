@@ -10,7 +10,7 @@ function AuthContextComponent(props) {
 
   useEffect(() => {
     const loggedInUserJSON = localStorage.getItem("loggedInUser"); //pega o user do local storage, mas ele tá em JSON
-    const parseLoggedInUser = JSON.parse(loggedInUserJSON); // pega o json e transforma em OBJETO.
+    const parseLoggedInUser = JSON.parse(loggedInUserJSON || '""'); // pega o json e transforma em OBJETO.
 
     if (parseLoggedInUser.token) {
       //se meu usuário estiver logado. POIS, SÓ USUÁRIO LOGADOS TEM TOKEN!!!

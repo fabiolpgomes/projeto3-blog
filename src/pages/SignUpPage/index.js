@@ -1,8 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { api } from "../../api/api";
-import { AuthContext } from "../../contexts/authContext";
 
 function SignUpPage() {
   const [form, setForm] = useState({
@@ -10,23 +9,44 @@ function SignUpPage() {
     email: "",
     password: "",
   });
-
-  const { ironhack } = useContext(AuthContext);
-  console.log(ironhack);
+  const [img, setImg] = useState("");
 
   const navigate = useNavigate();
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
+  function handleImage(e) {
+    setImg(e.target.files[0]);
+  }
+
+  async function handleUpdate() {
+    try {
+      const uploadData = new FormData();
+      console.log(uploadData);
+      uploadData.append("picture", img);
+
+      const response = await api.post("/upload-image", uploadData);
+
+      return response.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await api.post("/users/sign-up", form);
+      //primeiro o upload da imagem
+      const imgUrl = await handleUpdate();
+
+      await api.post("/users/sign-up", {
+        ...form,
+        imgUrl: imgUrl,
+      });
 
       navigate("/login");
-      toast.success("Usuário criado!");
+      toast.success("Usuário criado! Por favor ative sua conta!");
     } catch (error) {
       console.log(error);
       toast.error(`Ocorreu um erro`);
@@ -58,7 +78,8 @@ function SignUpPage() {
         onChange={handleChange}
       />
 
-      <h1>DENTRO DESSE H1: IRONHACK:</h1>
+      <label>Profile Pic</label>
+      <input type="file" id="formImg" onChange={handleImage} />
 
       <button type="submit">Cadastrar</button>
     </form>

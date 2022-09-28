@@ -1,6 +1,7 @@
 import { api } from "../../api/api";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../contexts/authContext";
+import { useNavigate } from "react-router-dom";
 
 function ProfilePage() {
   const { loggedInUser } = useContext(AuthContext); //COMO CONSUMIR O SEU CONTEXT
@@ -8,6 +9,8 @@ function ProfilePage() {
 
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,16 +28,24 @@ function ProfilePage() {
     fetchUser();
   }, []);
 
+  function handleLogOut() {
+    localStorage.removeItem("loggedInUser");
+    navigate("/login");
+  }
+
   return (
     <div>
       <h1>Profile Page</h1>
       <h2>Meu nome: {loggedInUser.user.username}</h2>
       <p>Email {loggedInUser.user.email}</p>
+      <img src={user.imgUrl} alt="profile" />
 
       {!isLoading &&
         user.posts.map((post) => {
           return <p>{post.content}</p>;
         })}
+
+      <button onClick={handleLogOut}>Logout</button>
     </div>
   );
 }
