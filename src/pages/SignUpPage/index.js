@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
-export function Signup() {
+function Signup() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -97,3 +97,5 @@ export function Signup() {
     </form>
   );
 }
+
+export default Signup;

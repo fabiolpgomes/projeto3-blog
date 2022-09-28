@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
-export function Profile() {
+function Profile() {
   const [user, setUser] = useState({ name: "", email: "" });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -89,3 +89,5 @@ export function Profile() {
     </>
   );
 }
+
+export default Profile;
