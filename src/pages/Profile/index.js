@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import MyPosts from "../../components/MyPosts";
+import CreatePost from "../../components/CreatePost";
 
 function Profile() {
   const [user, setUser] = useState({ name: "", email: "" });
@@ -70,6 +72,8 @@ function Profile() {
     }
   }
 
+  console.log(user);
+
   return (
     <>
       {!isLoading && (
@@ -80,12 +84,16 @@ function Profile() {
         </>
       )}
 
-      <button onClick={handleLogOut}>Logout</button>
-
       <div>
         <p>Alterar foto de perfil</p>
         <input type="file" onChange={handleImage} />
       </div>
+
+      <CreatePost reload={reload} setReload={setReload} />
+
+      <MyPosts reload={reload} setReload={setReload} />
+
+      <button onClick={handleLogOut}>Logout</button>
     </>
   );
 }

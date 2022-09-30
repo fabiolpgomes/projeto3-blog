@@ -7,6 +7,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/Profile";
+import UsersPage from "./pages/UsersPage";
 import ProtectRoute from "./components/ProtectRoute";
 
 import { Toaster } from "react-hot-toast";
@@ -26,6 +27,11 @@ function App() {
             path="/profile"
             element={<ProtectRoute Component={ProfilePage} />}
           />
+          <Route
+            path="/users/:idUser"
+            element={<ProtectRoute Component={UsersPage} />}
+          />
+
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </AuthContextComponent>
